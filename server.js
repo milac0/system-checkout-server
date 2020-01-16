@@ -3,25 +3,27 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+const itemsRouter = require("./routes/items");
+const codesRouter = require("./routes/code");
+const quantitiesRouter = require("./routes/quantity");
+
 const app = express();
 const port = process.env.PORT || 3000;
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {
-  // we're connected!
-});
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/", function(req, res) {
-  res.send("Hello");
-});
+app.use("/items", itemsRouter);
+app.use("/code", codesRouter);
+app.use("/quantity", quantitiesRouter);
 
 app.listen(port, () => console.log(`Server is running on ${port}`));
