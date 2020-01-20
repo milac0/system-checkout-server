@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
@@ -11,6 +12,13 @@ const chargeRouter = require("./routes/charge");
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/', function (request, response) {
+  response.sendFile(__dirname + '/dist/index.html');
+});
+
 
 mongoose.connect(process.env.ATLAS_URI, {
   useNewUrlParser: true,
