@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const helmet = require('helmet')
 
 const itemsRouter = require("./routes/items");
 const codesRouter = require("./routes/code");
@@ -21,6 +22,7 @@ const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 
 app.use(cors());
+app.use(helmet())
 app.use(express.json());
 
 app.use("/items", itemsRouter);
