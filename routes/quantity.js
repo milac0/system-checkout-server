@@ -3,7 +3,6 @@ const Quantity = require("../models/quantity.model");
 
 router.route("/").post((req, res) => {
   const quantityNames = req.body.quantity.map(quant => quant.name);
-  console.log(quantityNames);
   Quantity.find({ name: { $in: quantityNames } })
     .then(quantity => res.json(quantity))
     .catch(error => res.status(400).json({ error }));
